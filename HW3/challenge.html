@@ -8,18 +8,76 @@
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+            getCurrentSelection();
         });
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
 
+                let navbar = document.querySelector('nav');
+                let anchorElements = navbar.querySelectorAll('a');
+
+                anchorElements.forEach((option) => {
+                    option.addEventListener('click', (event) => {
+                        let selection = event.target;
+                        let text = selection.innerText;
+                        updateCurrentPage(text);
+                    })
+                });
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
         }
     </script>
     <style>
         /* TODO: make edits here */
+        body > ul li::marker {
+            content: '✓ ';
+            font-size: 1.2em;
+        }
+
+        nav {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin-left: 14px;
+            margin-right: 14px;
+            padding: 0;
+            overflow: hidden;
+            background-color: #434242;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        nav li {   
+            border-right: 1px solid #d8d2d2;
+        }
+
+        nav li:last-child {
+            border-right: none;
+        }
+
+        nav li a:hover {
+            background-color: #df6c8e;
+        }
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 18px 19px;
+            text-decoration: none;
+        }
+        h1::first-letter {
+            text-transform: capitalize;
+        }
+        a::first-letter {
+            text-transform: capitalize;
+        }
     </style>
     <!-- make the necessary edits above this line -->
 

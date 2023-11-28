@@ -20,7 +20,13 @@ require(__DIR__ . "/partials/nav.php");
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
+        var password = form.password.value;
+        var confirm = form.confirm.value;
 
+        if (password !== confirm) {
+            alert("Password must match!!");
+            return false;
+        }
         return true;
     }
 </script>
@@ -45,29 +51,29 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     $email = sanitize_email($email);
     //validate
     if (!is_valid_email($email)) {
-        echo "Invalid email address";
+        echo "Invalid email address <br>";
         $hasError = true;
     }
     if (empty($password)) {
-        echo "password must not be empty";
+        echo "password must not be empty <br>";
         $hasError = true;
     }
     if (empty($confirm)) {
-        echo "Confirm password must not be empty";
+        echo "Confirm password must not be empty <br>";
         $hasError = true;
     }
     if (strlen($password) < 8) {
-        echo "Password too short";
+        echo "Password too short <br>";
         $hasError = true;
     }
     if (
         strlen($password) > 0 && $password !== $confirm
     ) {
-        echo "Passwords must match";
+        echo "Passwords must match <br>";
         $hasError = true;
     }
     if (!$hasError) {
-        echo "Welcome, $email";
+        echo "Welcome, $email <br>";
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $db = getDB();
@@ -76,7 +82,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
             $stmt->execute([":email" => $email, ":password" => $hash]);
             echo "Successfully registered!";
         } catch (Exception $e) {
-            echo "There was a problem registering";
+            echo "There was a problem registering <br>";
             "<pre>" . var_export($e, true) . "</pre>";
         }
     }

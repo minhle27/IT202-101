@@ -14,8 +14,23 @@ require(__DIR__ . "/partials/nav.php");
 </form>
 <script>
     function validate(form) {
-        //TODO 1: implement JavaScript validation
-        //ensure it returns false for an error and true for success
+        var emailInput = form.email;
+        var passwordInput = form.password;
+
+        if (emailInput.value.trim() === "") {
+            alert("Email must not be empty");
+            return false;
+        }
+
+        if (passwordInput.value.trim() === "") {
+            alert("Password must not be empty");
+            return false;
+        }
+
+        if (passwordInput.value.length < 8) {
+            alert("Password must be at least 8 characters long");
+            return false;
+        }
 
         return true;
     }

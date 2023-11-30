@@ -25,3 +25,21 @@
 /*put this at the bottom of the page so any templates
  populate the flash variable and then display at the proper timing*/
 ?>
+
+<style>
+    .alert-success {
+        background-color: green
+    }
+
+    .alert-warning {
+        background-color: yellow;
+    }
+
+    .alert-danger {
+        background-color: red;
+    }
+
+    .alert-info {
+        background-color: teal;
+    }
+</style>

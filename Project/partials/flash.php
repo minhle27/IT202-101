@@ -1,8 +1,5 @@
 
-<div class="container" id="flash" style="
-    overflow-y: auto;
-    height: 60px;
-    ">
+<div class="container" id="flash">
     <?php $messages = getMessages(); ?>
     <?php if ($messages) : ?>
         <?php foreach ($messages as $msg) : ?>

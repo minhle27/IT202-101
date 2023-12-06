@@ -110,16 +110,70 @@ $username = get_username();
     </div>
     <input type="submit" value="Update Profile" name="save" />
 </form>
+<style>
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .mb-3 {
+        margin-bottom: 20px;
+    }
+    
+    .password-reset {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
 
 <script>
     function validate(form) {
         let pw = form.newPassword.value;
         let con = form.confirmPassword.value;
         let username = form.username.value;
+        let curpw = form.currentPassword.value;
         let isValid = true;
         //TODO add other client side validation....
         
-        if (!isValidPassword(pw)) {
+        if (!isValidPassword(curpw)) {
+            flash("Invalid current password", "danger");
+            isValid = false;
+        }
+        else if (!isValidPassword(pw)) {
             flash("Password too short", "danger");
             isValid = false;
         }

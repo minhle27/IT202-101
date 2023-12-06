@@ -84,6 +84,73 @@ try {
         <?php endif; ?>
     </tbody>
 </table>
+<style>
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    input[type="search"],
+    input[type="submit"] {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    input[type="search"] {
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    td form {
+        display: inline-block;
+    }
+
+    td input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+    }
+</style>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../partials/flash.php");

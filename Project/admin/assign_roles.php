@@ -84,20 +84,20 @@ if (isset($_POST["username"])) {
         </thead>
         <tbody>
             <tr>
-                <td>
+                <td class="users-col">
                     <table>
                         <?php foreach ($users as $user) : ?>
                             <tr>
-                                <td>
+                                <td class="username">
                                     <label for="user_<?php se($user, 'id'); ?>"><?php se($user, "username"); ?></label>
                                     <input id="user_<?php se($user, 'id'); ?>" type="checkbox" name="users[]" value="<?php se($user, 'id'); ?>" />
                                 </td>
-                                <td><?php se($user, "roles", "No Roles"); ?></td>
+                                <td class="user-roles"><?php se($user, "roles", "No Roles"); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
                 </td>
-                <td>
+                <td class="roles-col">
                     <?php foreach ($active_roles as $role) : ?>
                         <div>
                             <label for="role_<?php se($role, 'id'); ?>"><?php se($role, "name"); ?></label>
@@ -110,6 +110,89 @@ if (isset($_POST["username"])) {
     </table>
     <input type="submit" value="Toggle Roles" />
 </form>
+
+<style>
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-bottom: 40px;
+    }
+
+    input[type="search"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+        width: 200px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #0078d7;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        color: #333;
+        font-weight: normal;
+    }
+
+    .users-col {
+        width: 60%;
+    }
+
+    .roles-col {
+        width: 40%;
+    }
+
+    .username {
+        display: flex;
+        align-items: center;
+    }
+
+    .username label {
+        margin-right: 10px;
+    }
+
+    .user-roles {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .roles-col div {
+        margin-bottom: 10px;
+    }
+
+    .roles-col label {
+        margin-left: 10px;
+    }
+
+    .roles-col input[type="checkbox"] {
+        margin-right: 5px;
+    }
+</style>
+
+
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../partials/flash.php");

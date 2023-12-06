@@ -115,52 +115,20 @@ $username = get_username();
     function validate(form) {
         let pw = form.newPassword.value;
         let con = form.confirmPassword.value;
+        let username = form.username.value;
         let isValid = true;
         //TODO add other client side validation....
-        // Check if email is not empty
-        let emailInput = form.email;
-        if (emailInput.value.trim() === "") {
-            flash("Please enter an email.", "warning");
-            emailInput.focus();
+        
+        if (!isValidPassword(pw)) {
+            flash("Password too short", "danger");
             isValid = false;
         }
-
-        // Check if username is not empty
-        let usernameInput = form.username;
-        if (usernameInput.value.trim() === "") {
-            flash("Please enter a username.", "warning");
-            usernameInput.focus();
-            isValid = false;
-        }
-
-        // Check if current password has required length
-        let currentPasswordInput = form.currentPassword;
-        if (currentPasswordInput.value.trim() === "") {
-            flash("Please enter the current password.", "warning");
-            currentPasswordInput.focus();
-            isValid = false;
-        }
-
-        // Check if new password is not empty
-        let newPasswordInput = form.newPassword;
-        if (newPasswordInput.value.trim() === "") {
-            flash("Please enter a new password.", "warning");
-            newPasswordInput.focus();
-            isValid = false;
-        }
-
-        // Check if confirm password is not empty
-        let confirmPasswordInput = form.confirmPassword;
-        if (confirmPasswordInput.value.trim() === "") {
-            flash("Please confirm the password.", "warning");
-            confirmPasswordInput.focus();
-            isValid = false;
-        }
-
-        //example of using flash via javascript
-        //find the flash container, create a new element, appendChild
-        if (pw !== con) {
+        else if (!isEqual(pw, con)) {
             flash("Password and confirm password must match", "warning");
+            isValid = false;
+        }
+        else if (!isValidUsername(username)) {
+            flash("Username must be lowercase, 3-16 characters, contains only a-z, 0-9, _ or -", "danger");
             isValid = false;
         }
         return isValid;

@@ -6,6 +6,8 @@ require(__DIR__ . "/partials/nav.php");
 
 if (is_logged_in(true)) {
     //comment this out if you don't want to see the session variables
+    $username = get_username();
+    echo "<h2 style='color: green;'>Hello, $username!</h2>";
     error_log("Session data: " . var_export($_SESSION, true));
 }
 ?>

@@ -53,18 +53,22 @@ require(__DIR__ . "/partials/nav.php");
         const password = form.password.value;
         let isValid = true;
 
-        if (emailInput.indexOf("@") > -1) {
+        // validate email/username field
+        if (email.indexOf("@") > -1) {
             if (!isValidEmail(email)) {
                 flash("Invalid Email", "danger");
                 isValid = false;
             }
         }
         else {
-            if (!isValidUsername(username)) {
+            if (!isValidUsername(email)) {
                 flash("Username must be lowercase, 3-16 characters, contains only a-z, 0-9, _ or -", "danger");
                 isValid = false;
             }
         }
+        if (!isValid) return false;
+
+        // validate password
         if (!isValidPassword(password)) {
             flash("Password too short", "danger");
             isValid = false;

@@ -166,6 +166,7 @@ $username = get_username();
         let con = form.confirmPassword.value;
         let username = form.username.value;
         let curpw = form.currentPassword.value;
+        let email = form.email.value;
         let isValid = true;
         //TODO add other client side validation....
         
@@ -173,16 +174,28 @@ $username = get_username();
             flash("Invalid current password", "danger");
             isValid = false;
         }
-        else if (!isValidPassword(pw)) {
+        if (!isValid) return false;
+
+        if (!isValidPassword(pw)) {
             flash("Password too short", "danger");
             isValid = false;
         }
-        else if (!isEqual(pw, con)) {
+        if (!isValid) return false;
+
+        if (!isEqual(pw, con)) {
             flash("Password and confirm password must match", "warning");
             isValid = false;
         }
-        else if (!isValidUsername(username)) {
+        if (!isValid) return false;
+
+        if (!isValidUsername(username)) {
             flash("Username must be lowercase, 3-16 characters, contains only a-z, 0-9, _ or -", "danger");
+            isValid = false;
+        }
+        if (!isValid) return false;
+
+        if (!isValidEmail(email)) {
+            flash("Invalid Email!");
             isValid = false;
         }
         return isValid;

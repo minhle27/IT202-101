@@ -15,7 +15,7 @@ if (is_logged_in(true)) {
 <div class="menu-container">
     <ul>
         <li><a href="<?php echo get_url('create_account.php'); ?>">Create Account</a></li>
-        <li><a href="#">My Accounts</a></li>
+        <li><a href="<?php echo get_url('my_accounts.php'); ?>">My Accounts</a></li>
         <li><a href="#">Deposit</a></li>
         <li><a href="#">Withdraw</a></li>
         <li><a href="#">Transfer</a></li>

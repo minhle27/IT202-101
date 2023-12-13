@@ -99,6 +99,13 @@ if (isset($_POST["accountType"])) {
         // Update account balances
         $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT SUM(balance_change) FROM Transactions WHERE account_src = :account_id) WHERE id = :account_id");
         $stmt->execute([":account_id" => $account_id]);
+
+        // renew session
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :user_id");
+        $stmt->execute([":user_id" => get_user_id()]);
+        $updated_accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $_SESSION["user"]["accounts"] = $updated_accounts;
+
         flash("Successfully created checking account!", "success");
         die(header("Location: " . get_url("my_accounts.php")));
     } catch (Exception $e) {

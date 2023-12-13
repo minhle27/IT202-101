@@ -25,6 +25,19 @@ function has_role($role)
     }
     return false;
 }
+
+function has_account($accountID) 
+{
+    if (is_logged_in() && isset($_SESSION["user"]["accounts"])) {
+        foreach ($_SESSION["user"]["accounts"] as $r) {
+            if ($r["id"] === $accountID) {
+                return $r;
+            }
+        }
+    }
+    return null;
+}
+
 function get_username()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist

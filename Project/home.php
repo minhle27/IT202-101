@@ -33,7 +33,7 @@ if (is_logged_in(true)) {
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
-        max-width: 20%;
+        max-width: 30%;
     }
 
     .menu-container ul {

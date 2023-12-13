@@ -16,18 +16,16 @@ is_logged_in(true);
         </thead>
         <tbody>
             <?php
-            $db = getDB();
-            $stmt = $db->prepare("SELECT account_number, account_type, modified, balance FROM Accounts WHERE user_id = :user_id LIMIT 5");
-            $stmt->execute([":user_id" => get_user_id()]);
-            $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($accounts as $account) {
+            $counter = 0;
+            foreach ($_SESSION["user"]["accounts"] as $account) {
                 echo "<tr>";
-                echo "<td>" . $account['account_number'] . "</td>";
+                echo "<td><a href='transaction_history.php?account_id=" . $account['id'] . "'>" . $account['account_number'] . "</a></td>";
                 echo "<td>" . $account['account_type'] . "</td>";
                 echo "<td>" . $account['modified'] . "</td>";
                 echo "<td>" . $account['balance'] . "</td>";
                 echo "</tr>";
+                $counter++;
+                if ($counter >= 5) break;
             }
             ?>
         </tbody>

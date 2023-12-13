@@ -141,6 +141,21 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
 
+                        try {
+                            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :user_id");
+                            $stmt->execute([":user_id" => get_user_id()]);
+                            $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        } catch (Exception $e) {
+                            error_log(var_export($e, true));
+                        }
+
+                        //save accounts or empty array
+                        if (isset($accounts)) {
+                            $_SESSION["user"]["accounts"] = $accounts;
+                        } else {
+                            $_SESSION["user"]["accounts"] = [];
+                        }
+
                         flash("Weclome, " . get_username());
                         die(header("Location: home.php"));
                     } else {

@@ -156,7 +156,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                             $_SESSION["user"]["accounts"] = [];
                         }
 
-                        flash("Weclome, " . get_username());
+                        flash("Welcome, " . get_username());
                         die(header("Location: home.php"));
                     } else {
                         flash("Invalid password", "warning");

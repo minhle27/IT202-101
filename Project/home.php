@@ -16,8 +16,8 @@ if (is_logged_in(true)) {
     <ul>
         <li><a href="<?php echo get_url('create_account.php'); ?>">Create Account</a></li>
         <li><a href="<?php echo get_url('my_accounts.php'); ?>">My Accounts</a></li>
-        <li><a href="#">Deposit</a></li>
-        <li><a href="#">Withdraw</a></li>
+        <li><a href="<?php echo get_url('deposit.php'); ?>">Deposit</a></li>
+        <li><a href="<?php echo get_url('withdraw.php'); ?>">Withdraw</a></li>
         <li><a href="#">Transfer</a></li>
         <li><a href="#">Profile</a></li>
     </ul>

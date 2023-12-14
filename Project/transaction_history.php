@@ -72,7 +72,7 @@ else {
             <h2> No available transactions </h2>
         <?php endif; ?>
     <?php else : ?>
-        <h2>Hello No account</h2>
+        <h2>No account available</h2>
     <?php endif; ?>
 </div>
 <style>

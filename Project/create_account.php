@@ -99,6 +99,7 @@ if (isset($_POST["accountType"])) {
         // Update account balances
         $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT SUM(balance_change) FROM Transactions WHERE account_src = :account_id) WHERE id = :account_id");
         $stmt->execute([":account_id" => $account_id]);
+        $stmt->execute([":account_id" => -1]);
 
         // renew session
         $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :user_id");

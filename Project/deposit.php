@@ -107,6 +107,70 @@ is_logged_in(true);
         return isValid;
     }
 </script>
+
+<?php
+if (isset($_POST["accountSelect"]) && isset($_POST["depositAmount"])) {
+    $account = se($_POST, "accountSelect", "", false);
+    $depositAmount = se($_POST, "depositAmount", "", false);
+    $memo = se($_POST, "memo", "", false);
+
+    // validate
+    $hasError = false;
+    if (empty($account)) {
+        flash("Account must not be empty", "danger");
+        $hasError = true;
+    }
+    if (empty($depositAmount)) {
+        flash("Deposit amount must not be empty", "danger");
+        $hasError = true;
+    }
+    if (!has_account($account)) {
+        flash("You don't have permission", "danger");
+        $hasError = true;
+    }
+    if (!$hasError) {
+        $db = getDB();
+        try {
+            // Fetch the current balance of each account
+            $stmt = $db->prepare("SELECT balance FROM Accounts WHERE id = :account_id");
+            $stmt->execute([":account_id" => -1]);
+            $world_acc = $stmt->fetch(PDO::FETCH_ASSOC);
+            $world_acc_balance = $world_acc["balance"];
+
+            $stmt->execute([":account_id" => $account]);
+            $user_acc = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user_acc_balance = $user_acc["balance"];
+
+            $world_expected_total = $world_acc_balance - $depositAmount;
+            $user_expected_total = $user_acc_balance + $depositAmount;
+
+            // Create transaction pair
+            $stmt = $db->prepare("INSERT INTO Transactions (account_src, account_dest, balance_change, transaction_type, memo, expected_total) 
+                                VALUES(:account_src, :account_dest, :balance_change, :transaction_type, :memo, :expected_total)");
+            $stmt->execute([":account_src" => -1, ":account_dest" => $account, ":balance_change" => -$depositAmount, ":transaction_type" => "deposit", ":memo" => $memo, ":expected_total" => $world_expected_total]);
+            $stmt->execute([":account_src" => $account, ":account_dest" => -1, ":balance_change" => $depositAmount, ":transaction_type" => "deposit", ":memo" => $memo, ":expected_total" => $user_expected_total]);
+
+            // Update account balances
+            $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT SUM(balance_change) FROM Transactions WHERE account_src = :account_id) WHERE id = :account_id");
+            $stmt->execute([":account_id" => $account]);
+            $stmt->execute([":account_id" => -1]);
+
+            // renew session
+            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :user_id");
+            $stmt->execute([":user_id" => get_user_id()]);
+            $updated_accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $_SESSION["user"]["accounts"] = $updated_accounts;
+
+            flash("Successfully deposited!", "success");
+            die(header("Location: " . get_url("my_accounts.php")));
+        } catch (Exception $e) {
+            flash("An error occurred while depositing", "danger");
+            error_log(var_export($e, true));
+        }
+    }
+}
+?>
+
 <?php
 require(__DIR__ . "/partials/flash.php");
 ?>

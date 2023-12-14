@@ -73,21 +73,17 @@ is_logged_in(true);
 </style>
 <?php
 if (isset($_POST["accountType"])) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $random_account_num = substr(str_shuffle($characters), 0, 12);
-    $params = [":account_number" => $random_account_num, ":user_id" => get_user_id(), ":balance" => 0, ":account_type" => "checking"];
+    $random_account_num = get_new_account_number();
 
     $db = getDB();
     $stmt = $db->prepare("INSERT INTO Accounts (account_number, user_id, balance, account_type) VALUES(:account_number, :user_id, :balance, :account_type)");
+    $params = [":account_number" => $random_account_num, ":user_id" => get_user_id(), ":balance" => 0, ":account_type" => "checking"];
 
     try {
         $stmt->execute($params);
 
         // Retrieve account IDs
-        $stmt = $db->prepare("SELECT id FROM Accounts WHERE account_number = :random_account_num");
-        $stmt->execute([":random_account_num" => $random_account_num]);
-        $account = $stmt->fetch(PDO::FETCH_ASSOC);
-        $account_id = $account["id"];
+        $account_id = $db->lastInsertId();
 
         // Create transaction pair
         $stmt = $db->prepare("INSERT INTO Transactions (account_src, account_dest, balance_change, transaction_type, expected_total) 

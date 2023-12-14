@@ -38,6 +38,17 @@ function has_account($accountID)
     return null;
 }
 
+function get_new_account_number() {
+    $db = getDB();
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $stmt = $db->prepare("INSERT INTO Accounts (account_number, user_id) VALUES(:account_number, :user_id)");
+    $stmt->execute([":account_number" => NULL, ":user_id" => NULL]);
+    $lastInsertID = (string)$db->lastInsertId();
+    $rand = substr(str_shuffle($characters), 0, 12 - strlen($lastInsertID));
+    $account_number = $rand . $lastInsertID;
+    return $account_number;
+}
+
 function get_username()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist

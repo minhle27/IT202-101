@@ -30,7 +30,7 @@ function has_account($accountID)
 {
     if (is_logged_in() && isset($_SESSION["user"]["accounts"])) {
         foreach ($_SESSION["user"]["accounts"] as $r) {
-            if ($r["id"] === $accountID) {
+            if ($r["id"] == $accountID) {
                 return $r;
             }
         }
